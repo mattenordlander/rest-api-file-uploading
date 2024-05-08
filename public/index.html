@@ -1,10 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Upload | We Love Kittens!</title>
-</head>
-<body>
-</body>
+  </head>
+  <body>
+    <form method="post" action="/api/single-file" enctype="multipart/form-data">
+      <input type="file" name="myfile" id="myfile" /><br />
+      <button type="submit">Submit</button>
+    </form>
+    <img />
+    <button id="submitFetch">Submit with Fetch API</button>
+    <script>
+      const input = document.getElementById('myfile');
+      const img =  document.querySelector('img');
+      document.getElementById('submitFetch').onclick = function(){
+        fetch('/api/single-file', {
+            method: 'post',
+            body: input.files[0]
+        })
+        .then(res => {
+            console.log('res= ',res)
+            return res.blob()
+        })
+        .then(data =>{ 
+        console.log(data);
+        img.src = URL.createObjectURL(data)});
+      }
+    </script>
+  </body>
 </html>
